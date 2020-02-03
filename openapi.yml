@@ -1,0 +1,278 @@
+---
+openapi: 3.0.2
+info:
+  title: Demo
+  version: 1.0.0
+  description: |-
+    A sample API that uses a petstore as an example to demonstrate features
+    in the OpenAPI 3.0 specification
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Swagger API Team
+    url: http://swagger.io
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+- url: http://petstore.swagger.io/api
+paths:
+  /jobs:
+    summary: Path used to manage the list of jobs.
+    description: The REST endpoint/path used to list and create zero or more `Job`
+      entities.  This path contains a `GET` and `POST` operation to perform the list
+      and create tasks, respectively.
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+          description: Successful response - returns an array of `Job` entities.
+      operationId: getjobs
+      summary: List All jobs
+      description: Gets a list of all `Job` entities.
+    post:
+      requestBody:
+        description: A new `Job` to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+        required: true
+      responses:
+        "201":
+          description: Successful response.
+      operationId: createJob
+      summary: Create a Job
+      description: Creates a new instance of a `Job`.
+    parameters:
+    - examples:
+        community:
+          value: '"some text"'
+      name: community
+      description: Community ID where this job will be shown
+      schema:
+        type: string
+      in: query
+      required: false
+    - name: Authorization
+      description: Bearer <AuthToken>
+      schema:
+        type: string
+      in: header
+      required: true
+  /jobs/{jobId}:
+    summary: Path used to manage a single Job.
+    description: The REST endpoint/path used to get, update, and delete single instances
+      of an `Job`.  This path contains `GET`, `PUT`, and `DELETE` operations used
+      to perform the get, update, and delete tasks, respectively.
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+          description: Successful response - returns a single `Job`.
+      operationId: getJob
+      summary: Get a Job
+      description: Gets the details of a single instance of a `Job`.
+    put:
+      requestBody:
+        description: Updated `Job` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+        required: true
+      responses:
+        "202":
+          description: Successful response.
+      operationId: updateJob
+      summary: Update a Job
+      description: Updates an existing `Job`.
+    delete:
+      responses:
+        "204":
+          description: Successful response.
+      operationId: deleteJob
+      summary: Delete a Job
+      description: Deletes an existing `Job`.
+    parameters:
+    - name: jobId
+      description: A unique identifier for a `Job`.
+      schema:
+        type: string
+      in: path
+      required: true
+  /user-job-statuses:
+    summary: Path used to manage the list of userjobstatuses.
+    description: The REST endpoint/path used to list and create zero or more `UserJobStatus`
+      entities.  This path contains a `GET` and `POST` operation to perform the list
+      and create tasks, respectively.
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserJobStatus'
+          description: Successful response - returns an array of `UserJobStatus` entities.
+      operationId: getuserjobstatuses
+      summary: List All userjobstatuses
+      description: Gets a list of all `UserJobStatus` entities.
+    post:
+      requestBody:
+        description: A new `UserJobStatus` to be created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserJobStatus'
+        required: true
+      responses:
+        "201":
+          description: Successful response.
+      operationId: createUserJobStatus
+      summary: Create a UserJobStatus
+      description: Creates a new instance of a `UserJobStatus`.
+  /user-job-statuses/{jobId}:
+    summary: Path used to manage a single UserJobStatus.
+    description: The REST endpoint/path used to get, update, and delete single instances
+      of an `UserJobStatus`.  This path contains `GET`, `PUT`, and `DELETE` operations
+      used to perform the get, update, and delete tasks, respectively.
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserJobStatus'
+          description: Successful response - returns a single `UserJobStatus`.
+      operationId: getUserJobStatus
+      summary: Get a UserJobStatus
+      description: Gets the details of a single instance of a `UserJobStatus`.
+    put:
+      requestBody:
+        description: Updated `UserJobStatus` information.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserJobStatus'
+        required: true
+      responses:
+        "202":
+          description: Successful response.
+      operationId: updateUserJobStatus
+      summary: Update a UserJobStatus
+      description: Updates an existing `UserJobStatus`.
+    delete:
+      responses:
+        "204":
+          description: Successful response.
+      operationId: deleteUserJobStatus
+      summary: Delete a UserJobStatus
+      description: Deletes an existing `UserJobStatus`.
+    parameters:
+    - name: jobId
+      description: A unique identifier for a `UserJobStatus`.
+      schema:
+        type: string
+      in: path
+      required: true
+components:
+  schemas:
+    Error:
+      required:
+      - code
+      - message
+      properties:
+        code:
+          format: int32
+          type: integer
+        message:
+          type: string
+    Job:
+      title: Root Type for Job
+      description: 'A new job object in database        '
+      required:
+      - title
+      - applyLink
+      - communityId
+      - companyLinkedInProfile
+      - companyName
+      - currency
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        remote:
+          type: boolean
+        designation:
+          type: string
+        type:
+          enum:
+          - FullTime
+          - PartTime
+          type: string
+        salary:
+          format: int32
+          type: integer
+        currency:
+          type: string
+        applyLink:
+          type: string
+        companyName:
+          type: string
+        website:
+          type: string
+        companyLinkedInProfile:
+          type: string
+        communityId:
+          type: string
+      example:
+        title: Software Developer
+        description: Full stack software developer
+        location: Delhi
+        remote: true
+        designation: Senior Software Developer
+        type: FullTime
+        salary: 9000
+        currency: INR
+        applyLink: https://example.com/apply
+        companyName: Microsoft
+        website: https://example.com
+        companyLinkedInProfile: https://linkedin.com/in/Microsoft
+        communityId: "12345678"
+    UserJobStatus:
+      title: Root Type for UserJobStatus
+      description: 'Job status for a user   '
+      required:
+      - status
+      - jobId
+      - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        jobId:
+          type: string
+        status:
+          description: ""
+          enum:
+          - APPLIED
+          - VIEWED
+          type: string
+      example:
+        userId: some text
+        jobId: some text
+        status: APPLIED
